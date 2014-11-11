@@ -7,6 +7,12 @@ all: docs figs
 docs: $(ALL_DOCS_HTML)
 figs:
 
+img/dark-field.tif: raw/img/2014-09-11/0.010surf_0.5-aq_10-hz_60-s_20-hrs-inc_1to1000dilut_r0s1f0_bf1.tif
+	cp $< $@
+
+img/fluor-fs46.tif: raw/img/2014-09-11/0.010surf_0.5-aq_10-hz_60-s_20-hrs-inc_1to1000dilut_r0s1f0_yellow.tif
+	cp $< $@
+
 pandoc_recipe_md2html = \
 pandoc -f markdown -t html5 -s \
        --highlight-style pygments --mathjax \
