@@ -1,5 +1,5 @@
 all: docs figs
-figs:
+figs: fig/dark-field.circles.overlay.png
 
 
 # -----------------------

@@ -15,18 +15,12 @@ Pipeline:
 """
 
 import sys
-from numpy import array, column_stack, iinfo, uint8, asarray, empty
+from numpy import column_stack, iinfo, uint8, zeros, arange
+from scipy.ndimage.filters import gaussian_filter
 from skimage import filter as image_filter
 from skimage.transform import hough_circle
 from skimage.feature import peak_local_max
-from skimage.color import gray2rgb
 from skimage.io import imread, imsave
-from scipy.ndimage.filters import gaussian_filter
-from matplotlib import pyplot as plt
-from matplotlib import cm
-from numpy import zeros, arange
-from skimage.draw import circle
-from scipy.interpolate import interp1d
 from pandas import DataFrame, read_table
 
 

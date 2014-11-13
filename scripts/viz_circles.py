@@ -1,14 +1,14 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """Create image files with circle perimeters added.
 
 """
 import sys
-from find_circles import renorm, threshold, read_circles
+from numpy import zeros
+from skimage.color import gray2rgb
+from skimage.draw import circle
 from skimage.io import imread, imsave
 from matplotlib import pyplot as plt
-from skimage import color
-from skimage.draw import circle
-from numpy import zeros
+from find_circles import renorm, threshold, read_circles
 
 def image_grid(*images, fig_height=5, max_cols=3, kwargs_list=None, **kwargs):
     """Print a grid of identically shaped images.
@@ -31,7 +31,7 @@ def image_grid(*images, fig_height=5, max_cols=3, kwargs_list=None, **kwargs):
     return fig, axes
 
 def add_circles(image, circles, cmap=plt.cm.cool):
-    output = color.gray2rgb(image)
+    output = gray2rgb(image)
     for r, x, y, accum in circles:
         shape = list(reversed(image.shape))
         xs_outer, ys_outer = circle(y, x, r, shape=shape)
