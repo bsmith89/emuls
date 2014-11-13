@@ -8,16 +8,10 @@ biology projects.
 # Quickstart #
 Fork the template and install requirements:
 ```bash
-# Clone the template and submodules into `new-project`,
-# naming the remote 'template'.
-git clone --recursive --origin template \
-          https://github.com/bsmith89/compbio-template new-project
-# Stop master from tracking the template; we don't want git push to
-# overwrite the template.
-git config --unset branch.master.remote
-# Relink README.md to NOTES.md, instead of TEMPLATE.md
-unlink README.md
-ln -s NOTES.md README.md
+# Clone the project template
+git clone https://github.com/bsmith89/compbio-template new-project
+# Initialize the project
+./init_project.sh
 # Remove unneeded directories and files from the repository.
 # e.g. if you're not analyzing images, sequence data, or phylogenetic trees:
 git rm -r img/ seq/ tre/
@@ -57,8 +51,8 @@ ipython notebook
 ```
 
 Write scripts to generate results:
-```python
-# TODO
+```bash
+vim scripts/example.py
 ```
 
 Use git to full advantage:
@@ -70,8 +64,15 @@ git fetch template
 git merge template
 ```
 
+Publish your project to github:
+```bash
+# After you've made a new repository called 'new-project' on github...
+git remote git@github.com:USERNAME/new-project.git origin
+git push -u origin
+```
 
-# Directory Structure #
+
+# Project Outline #
 ## Notes ##
 _All files which describe the project are version controlled._
 
@@ -331,7 +332,3 @@ Figures don't have to be good enough for a publication, they just
 have to represent the culmination of an analysis.
 
 Should be produced by scripts in `fig/scripts`.
-
-## TODO ##
--  Python requirements.txt file
--  ReST vs. Markdown
