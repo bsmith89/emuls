@@ -20,16 +20,14 @@ from skimage import filter as image_filter
 from skimage.transform import hough_circle
 from skimage.feature import peak_local_max
 from skimage.color import gray2rgb
-from skimage.draw import circle_perimeter
 from skimage.io import imread, imsave
 from scipy.ndimage.filters import gaussian_filter
 from matplotlib import pyplot as plt
 from matplotlib import cm
 from numpy import zeros, arange
-from skimage import color
 from skimage.draw import circle
 from scipy.interpolate import interp1d
-from pandas import DataFrame
+from pandas import DataFrame, read_table
 
 
 def renorm(image, dtype=uint8):
@@ -52,19 +50,26 @@ def find_circles(image, min_r=30, max_r=300, cutoff=0.5, step=4, blur_sigma=3):
     blurred_hough_space = gaussian_filter(hough_space, sigma=sigma_3d)
     local_maxima = peak_local_max(blurred_hough_space, exclude_border=False)
     circles = column_stack((local_maxima, hough_space[tuple(local_maxima.T)]))
-    circles[:,0] = circles[:,0] + min(rs)
+    circles[:,0] = rs[list(circles[:,0])]
     return circles[circles[:,3] > cutoff]
 
 def circles2df(circles):
-    df = DataFrame(circles, columns=("r", "y", "x", "score"))
-    df[['r', 'y', 'x']] = df[['r', 'y', 'x']].astype(int)
+    df = DataFrame(circles, columns=("r", "x", "y", "score"))
+    df[['r', 'x', 'y']] = df[['r', 'x', 'y']].astype(int)
     return df
+
+def save_circles(circles, handle=sys.stdout):
+    df = circles2df(circles)
+    df.to_csv(handle, sep="\t", na_rep="NaN", index=False)
+
+def read_circles(handle=sys.stdin):
+    df = read_table(handle)
+    return df[['r', 'x', 'y', 'score']].values
 
 def main():
     image = renorm(imread(sys.argv[1]))
     circles = find_circles(image)
-    df = circles2df(circles)
-    df.to_csv(sys.stdout, sep="\t", na_rep="NaN", index=False)
+    save_circles(circles, sys.stdout)
 
 
 if __name__ == '__main__':

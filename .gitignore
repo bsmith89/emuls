@@ -12,6 +12,7 @@ raw/*
 meta/*
 tre/*
 img/*
+fig/*
 profile_default/*
 
 # But white-list these files
